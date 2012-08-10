@@ -7,5 +7,6 @@
 			<attribute name="javadoc_location" value="http://jd.bukkit.org/apidocs/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Michael/Desktop/Java/bukkitapis/craftbukkit-1.3.1-R1.1-20120809.005138-6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

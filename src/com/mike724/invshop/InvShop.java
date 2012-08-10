@@ -14,11 +14,12 @@ public class InvShop extends JavaPlugin {
 	public void onDisable() {
 		log.info(pdf.getName()+" v"+pdf.getVersion()+" has been disabled.");
 	}
-
+	
 	@Override
 	public void onEnable() {
 		log = this.getLogger();
 		pdf = this.getDescription();
+		this.getServer().getPluginManager().registerEvents(new InvShopEvents(this), this);
 		log.info(pdf.getName()+" v"+pdf.getVersion()+" has been enabled.");
 	}
 
