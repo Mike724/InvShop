@@ -20,7 +20,10 @@ public class InvShop extends JavaPlugin {
 		log = this.getLogger();
 		pdf = this.getDescription();
 		this.getServer().getPluginManager().registerEvents(new InvShopEvents(this), this);
+		InvShopCommands isc = new InvShopCommands();
+		this.getCommand("shop").setExecutor(isc);
 		log.info(pdf.getName()+" v"+pdf.getVersion()+" has been enabled.");
 	}
+	
 
 }

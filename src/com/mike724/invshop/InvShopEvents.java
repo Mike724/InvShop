@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -64,9 +65,12 @@ public class InvShopEvents implements Listener {
 				e.setLine(0, "   §1[Shop]");
 				e.setLine(2, e.getPlayer().getName());
 				e.setLine(3, "#101");
+				Player p = e.getPlayer();
+				p.sendMessage(ChatColor.GREEN+"Almost done! Now just link this shop to a chest (type /shop link)");
 			}
 		}
 	}
+	
 	 @EventHandler
 	 public void onBlockPlace(BlockPlaceEvent e) {
 		 if(!e.isCancelled()) {
