@@ -1,5 +1,6 @@
 package com.mike724.invshop;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -17,6 +18,16 @@ public class InvShop extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		File pluginData = this.getDataFolder();
+		if(!pluginData.exists()) {
+			pluginData.mkdir();
+		}
+		File dF = new File(pluginData+File.separator+"shops");
+		if(!dF.exists()) {
+			dF.mkdir();
+		}
+		InvShopGlobal.shopsFolder = dF;
+		InvShopGlobal.plugin = this;
 		log = this.getLogger();
 		pdf = this.getDescription();
 		this.getServer().getPluginManager().registerEvents(new InvShopEvents(this), this);

@@ -15,6 +15,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
+import com.mike724.invshop.exceptions.ShopNotFoundException;
+
 public class InvShopEvents implements Listener {
 	
 	private InvShop plugin;
@@ -33,15 +35,36 @@ public class InvShopEvents implements Listener {
 			BlockState bs = e.getClickedBlock().getState();
 			Sign sign = (Sign) bs;
 			if(sign.getLine(0).endsWith("[Shop]")) {
-				String[] pages = new String[1];
-				pages[0] = "Hello";
-				Book book = new Book("50 Coins","§f6 In Stock", pages);
-				Inventory inv = plugin.getServer().createInventory(null, 18, String.format("~ %s's Shop", sign.getLine(2)));
-				for(int i=9;i<18;i++) {
-					inv.setItem(i, book.generateItemStack());
+				int id = -1;
+				try {
+					id = Integer.parseInt(sign.getLine(3));
+				} catch(NumberFormatException ex) {
+					ex.printStackTrace();
+					return;
 				}
-				e.getPlayer().openInventory(inv);
-				e.getPlayer().sendMessage("Opened inventory");
+				Shop shop;
+				try {
+					shop = new Shop(id);
+				} catch (ShopNotFoundException e1) {
+					e.getPlayer().sendMessage(ChatColor.RED+"SHOP NOT FOUND! ALERT ADMIN");
+					e1.printStackTrace();
+					return;
+				}
+				if(!e.getPlayer().isSneaking()) {
+					String[] pages = new String[1];
+					pages[0] = "Hacker!";
+					Book book = new Book("50 Coins","§f6 In Stock", pages);
+					Inventory inv = plugin.getServer().createInventory(null, 18, String.format("~ %s's Shop", shop.getOwnerName()));
+					for(int i=9;i<18;i++) {
+						inv.setItem(i, book.generateItemStack());
+					}
+					e.getPlayer().openInventory(inv);
+					e.getPlayer().sendMessage("Opened shop");
+				} else {
+					Inventory inv = plugin.getServer().createInventory(null, 54, "~ Editing");
+					e.getPlayer().openInventory(inv);
+					e.getPlayer().sendMessage("Editing shop");
+				}
 			}
 		}
 	}
@@ -62,11 +85,12 @@ public class InvShopEvents implements Listener {
 	public void onSignChange(SignChangeEvent e) {
 		if(!e.isCancelled()) {
 			if(e.getLine(0).equalsIgnoreCase("[Shop]")) {
+				Shop s = new Shop(e.getPlayer());
 				e.setLine(0, "   §1[Shop]");
-				e.setLine(2, e.getPlayer().getName());
-				e.setLine(3, "#101");
+				e.setLine(2, s.getOwnerName());
+				e.setLine(3, String.valueOf(s.getShopID()));
 				Player p = e.getPlayer();
-				p.sendMessage(ChatColor.GREEN+"Almost done! Now just link this shop to a chest (type /shop link)");
+				p.sendMessage(ChatColor.GREEN+"Sneak and right click to edit!");
 			}
 		}
 	}
