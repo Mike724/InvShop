@@ -18,14 +18,14 @@ public class Shop {
 	private ConfigAccessor configA = null;
 	private FileConfiguration config = null;
 	
+	//Create shop
 	public Shop(Player owner) {
 		this.shopID = ShopUtil.getHighestID()+1;
 		configA = new ConfigAccessor(String.valueOf(this.shopID).concat(".yml"),"shop.yml");
 		config = configA.getConfig();
-		config.set("owner", owner.getName());
-		configA.saveConfig();
-		
 		this.ownerName = owner.getName();
+		config.set("owner", ownerName);
+		configA.saveConfig();
 	}
 	public Shop(int id) throws ShopNotFoundException {
 		File[] files = InvShopGlobal.shopsFolder.listFiles(new ShopFilter(id+".",null,null));
@@ -34,7 +34,6 @@ public class Shop {
 		}
 		configA = new ConfigAccessor(String.valueOf(id).concat(".yml"), "shop.yml");
 		config = configA.getConfig();
-		
 		this.shopID = id;
 		this.ownerName = config.getString("owner");
 	}

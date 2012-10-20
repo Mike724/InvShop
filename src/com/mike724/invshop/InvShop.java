@@ -22,7 +22,7 @@ public class InvShop extends JavaPlugin {
 		if(!pluginData.exists()) {
 			pluginData.mkdir();
 		}
-		File dF = new File(pluginData+File.separator+"shops");
+		File dF = new File(pluginData,"shops");
 		if(!dF.exists()) {
 			dF.mkdir();
 		}
@@ -35,6 +35,4 @@ public class InvShop extends JavaPlugin {
 		this.getCommand("shop").setExecutor(isc);
 		log.info(pdf.getName()+" v"+pdf.getVersion()+" has been enabled.");
 	}
-	
-
 }
